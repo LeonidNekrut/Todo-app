@@ -3,9 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
+    "laco": "^1.2.1",
+    "laco-react": "^1.1.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-jsx": "^1.0.0",
+    "react-notifications": "^1.4.3",
+    "react-scripts": "^3.0.1",
+    "toasted-notes": "^2.1.5",
+    "todomvc-app-css": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
