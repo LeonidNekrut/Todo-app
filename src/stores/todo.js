@@ -1,20 +1,33 @@
 import { Store } from "laco";
+import axios from 'axios';
+import toast from "toasted-notes";
 
 export const TodoStore = new Store(
     {
         todos: [],
+        todo: axios.get(`http://localhost:8080/api/todos/`)
+            .then(res =>{
+                console.log(res);
+                toast.notify('Todo retrieved successfully ');
+            }),
         visibilityFilter: "All"
     },
     "TodoStore"
 );
 
+
 export const addTodo = text =>
     TodoStore.set(
         ({ todos }) => ({
+            todo: axios.post(`http://localhost:8080/api/todos/`,{text})
+                .then(res=> {
+                    console.log(res);
+                    toast.notify('Todo successfully created');
+            }),
             todos: [
                 ...todos,
                 {
-                    id: todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+                    id: todos.reduce((maxId, todo) => Math.max(todo.id, maxId), +1) - 1,
                     completed: false,
                     text
                 }
@@ -24,16 +37,28 @@ export const addTodo = text =>
     );
 
 export const deleteTodo = id =>
+    console.log("id",id);
     TodoStore.set(
-        ({ todos }) => ({
-            todos: todos.filter(item => item.id !== id)
+        ({todos, id, todo}) => ({
+            todo: axios.delete(`http://localhost:8080/api/todos/`,{params: {id: todo.id}})
+                .then(res => {
+                    console.log(res);
+                    toast.notify('Todo successfully deleted');
+                }),
+            todos: todos.filter(todo => todo.id === id),
         }),
         "Delete todo"
     );
 
+
 export const editTodo = (id, text) =>
     TodoStore.set(
         ({ todos }) => ({
+            todo: axios.put(`http://localhost:8080/api/todos/${id}`,{text})
+                .then(res =>{
+                    console.log(res);
+                    toast.notify('Todo successfully edited');
+                }),
             todos: todos.map(todo => (todo.id === id ? { ...todo, text } : todo))
         }),
         "Edit todo"
@@ -70,8 +95,6 @@ export const clearCompletedTodos = () =>
         }),
         "Clear completed todos"
     );
-
-export const getTodosCount = () => TodoStore.get().todos.length;
 
 export const getCompletedCount = todos =>
     todos.reduce((count, todo) => (todo.completed ? count + 1 : count), 0);

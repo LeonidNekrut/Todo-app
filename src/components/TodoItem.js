@@ -3,7 +3,6 @@ import classnames from "classnames";
 import TodoTextInput from "./TodoTextInput";
 import 'toasted-notes/src/styles.css'
 import { editTodo, deleteTodo, completeTodo } from "../stores/todo";
-import toast from "toasted-notes";
 
 export default class TodoItem extends Component {
     state = {
@@ -15,21 +14,19 @@ export default class TodoItem extends Component {
     };
 
     handleSave = (id, text) => {
-
         if (text.length === 0) {
             deleteTodo(id);
         } else {
             editTodo(id, text);
         }
         this.setState({ editing: false });
-        toast.notify('Todo successfully edited');
     };
 
     render() {
         const { todo } = this.props;
-
         let element;
         if (this.state.editing) {
+
             element = (
                 <TodoTextInput
                     text={todo.text}
@@ -47,7 +44,7 @@ export default class TodoItem extends Component {
                         onChange={() => completeTodo(todo.id)}
                     />
                     <label onDoubleClick={this.handleDoubleClick}>{todo.text}</label>
-                    <button  className="destroy" onClick={() => deleteTodo(todo.id)} />
+                    <button  className="destroy" onClick={() => deleteTodo(todo)} />
                 </div>
             );
         }
