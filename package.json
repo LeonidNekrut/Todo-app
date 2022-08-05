@@ -16,7 +16,7 @@
     "laco-react": "^1.1.0",
     "mongo": "^0.1.0",
     "mongodb": "^3.2.7",
-    "mongoose": "^5.5.15",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.19.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
